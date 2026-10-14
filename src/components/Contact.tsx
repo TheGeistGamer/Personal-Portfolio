@@ -13,7 +13,8 @@ export const Contact = () => {
           </h2>
           <p data-es="¿Tienes una idea, un proyecto o una vacante? Mi terminal siempre está escuchando en el puerto correcto." data-en="Got an idea, a project or an opening? My terminal is always listening on the right port.">¿Tienes una idea, un proyecto o una vacante? Mi terminal siempre está escuchando en el puerto correcto.</p>
           <div className="contact-actions">
-            <a className="btn primary" href="https://github.com/TheGeistGamer" target="_blank" rel="noopener noreferrer me">GITHUB</a>
+            <a className="btn primary" href="mailto:contacto@infinitydev.agency">EMAIL</a>
+            <a className="btn" href="https://github.com/TheGeistGamer" target="_blank" rel="noopener noreferrer me">GITHUB</a>
             <a className="btn" href="https://www.linkedin.com/in/frank-giovanni-s-10a798360" target="_blank" rel="noopener noreferrer me">LINKEDIN</a>
           </div>
         </div>
