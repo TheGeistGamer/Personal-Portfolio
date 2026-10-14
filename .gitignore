@@ -23,3 +23,6 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .wrangler/
+
+# Blender backups
+*.blend1

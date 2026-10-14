@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^5.0.7",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
     "@fontsource/press-start-2p": "^5.3.0",
     "@fontsource/vt323": "^5.3.0",
@@ -23,9 +24,13 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.3.1",
+    "three": "^0.186.1",
     "wrangler": "^4.100.0"
   },
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0"
   }
 }

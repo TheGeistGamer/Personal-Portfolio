@@ -20,7 +20,8 @@ const {
 	image = SITE.ogImage,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+// Legacy site: the studio landing at / is the indexable page.
+const canonical = new URL('/', Astro.site ?? SITE.url).href;
 const ogImage = new URL(image, Astro.site ?? SITE.url).href;
 
 const jsonLd = {
@@ -73,7 +74,7 @@ const jsonLd = {
 		<meta name="description" content={description} />
 		<meta name="author" content={SITE.fullName} />
 		<meta name="keywords" content={SITE.keywords.join(', ')} />
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+		<meta name="robots" content="noindex, follow" />
 		<link rel="canonical" href={canonical} />
 		<link rel="alternate" hreflang="es" href={canonical} />
 		<link rel="alternate" hreflang="x-default" href={canonical} />

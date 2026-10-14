@@ -40,6 +40,14 @@ export const initPortfolioInteractions = () => {
       const value = el.dataset[lang];
       if (value != null && el.innerHTML !== value) el.innerHTML = value;
     });
+    document.querySelectorAll<HTMLElement>('[data-alt-es]').forEach((el) => {
+      const value = el.getAttribute(`data-alt-${lang}`);
+      if (value != null) el.setAttribute('alt', value);
+    });
+    document.querySelectorAll<HTMLElement>('[data-aria-es]').forEach((el) => {
+      const value = el.getAttribute(`data-aria-${lang}`);
+      if (value != null) el.setAttribute('aria-label', value);
+    });
     langBox?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
       const on = button.dataset.lang === lang;
       button.classList.toggle('on', on);
@@ -76,6 +84,44 @@ export const initPortfolioInteractions = () => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') setMenu(false);
   });
+
+  /* ---------- project case-study modals ---------- */
+  const HASH_PREFIX = '#proyecto-';
+  const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>('dialog[data-project-dialog]'));
+
+  const openProject = (id: string) => {
+    const dialog = dialogs.find((d) => d.dataset.projectDialog === id);
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    const scroller = dialog.querySelector<HTMLElement>('.pm-scroll');
+    if (scroller) scroller.scrollTop = 0;
+    history.replaceState(null, '', `${HASH_PREFIX}${id}`);
+  };
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    const opener = target?.closest<HTMLElement>('[data-project]');
+    if (opener?.dataset.project) {
+      openProject(opener.dataset.project);
+      return;
+    }
+    const dialog = target?.closest<HTMLDialogElement>('dialog[data-project-dialog]');
+    if (!dialog) return;
+    // `data-close` buttons/links, or a click on the backdrop (the dialog element itself).
+    if (target === dialog || target?.closest('[data-close]')) dialog.close();
+  });
+
+  dialogs.forEach((dialog) => {
+    dialog.addEventListener('close', () => {
+      if (location.hash.startsWith(HASH_PREFIX)) history.replaceState(null, '', location.pathname + location.search);
+    });
+  });
+
+  const openFromHash = () => {
+    if (location.hash.startsWith(HASH_PREFIX)) openProject(location.hash.slice(HASH_PREFIX.length));
+  };
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
 
   /* ---------- terminal ---------- */
   let termTimer = 0;
