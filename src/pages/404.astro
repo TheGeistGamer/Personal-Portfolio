@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/StudioLayout.astro";
+---
+<Layout title="Página no encontrada — Frank Huerta" description="Esta página no existe. Vuelve al portafolio de Frank Huerta, desarrollador backend." noindex>
+  <main class="nf">
+    <p class="nf-code">404</p>
+    <h1>Esta página no existe</h1>
+    <p>Puede que el enlace esté roto o que la página se haya movido.</p>
+    <a class="btn primary" href="/">Volver al portafolio</a>
+  </main>
+</Layout>
+
+<style>
+  .nf { min-height: 100dvh; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; text-align: center; }
+  .nf-code { margin: 0; font-size: 72px; font-weight: 800; letter-spacing: -.04em; color: var(--accent, #D10F14); }
+  .nf h1 { margin: 0; font-size: 28px; letter-spacing: -.02em; }
+  .nf p { margin: 0 0 8px; color: var(--ink-2); }
+</style>

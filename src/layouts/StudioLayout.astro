@@ -3,17 +3,20 @@ import '@fontsource-variable/plus-jakarta-sans';
 import '../styles/studio.css';
 import jakarta from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
 import { SITE } from '../site';
+import { projects } from '../data/projects';
 
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	noindex?: boolean;
 }
 
 const {
 	title = SITE.title,
 	description = SITE.description,
 	image = SITE.ogImage,
+	noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
@@ -55,6 +58,25 @@ const jsonLd = {
 			isPartOf: { '@id': `${SITE.url}/#website` },
 			mainEntity: { '@id': `${SITE.url}/#person` },
 			primaryImageOfPage: ogImage,
+			hasPart: { '@id': `${SITE.url}/#projects` },
+		},
+		{
+			'@type': 'ItemList',
+			'@id': `${SITE.url}/#projects`,
+			name: 'Proyectos',
+			itemListElement: projects.map((p, i) => ({
+				'@type': 'ListItem',
+				position: i + 1,
+				item: {
+					'@type': 'CreativeWork',
+					name: p.title,
+					description: p.tagline.es,
+					image: new URL(p.cover, SITE.url).href,
+					keywords: p.chips.join(', '),
+					creator: { '@id': `${SITE.url}/#person` },
+					...(p.link ? { url: p.link.href } : {}),
+				},
+			})),
 		},
 	],
 };
@@ -69,7 +91,7 @@ const jsonLd = {
 		<meta name="description" content={description} />
 		<meta name="author" content={SITE.fullName} />
 		<meta name="keywords" content={SITE.keywords.join(', ')} />
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+		<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 		<link rel="canonical" href={canonical} />
 		<link rel="alternate" hreflang="es" href={canonical} />
 		<link rel="alternate" hreflang="x-default" href={canonical} />
@@ -89,6 +111,7 @@ const jsonLd = {
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:type" content="image/png" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content={`${SITE.name} — ${SITE.jobTitle}`} />
