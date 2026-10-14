@@ -1,13 +1,10 @@
 {
-	"compatibility_date": "2026-06-14",
-	"compatibility_flags": [
-		"global_fetch_strictly_public"
-	],
+	// Static site: Astro builds to ./dist and Cloudflare serves it as assets
+	// (no Worker script, no KV/session bindings needed).
 	"name": "landing-page-portafolio",
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	"compatibility_date": "2026-06-14",
 	"assets": {
-		"directory": "./dist",
-		"binding": "ASSETS"
+		"directory": "./dist"
 	},
 	"observability": {
 		"enabled": true
