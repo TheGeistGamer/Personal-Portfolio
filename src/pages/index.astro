@@ -3,5 +3,10 @@ import { PortfolioApp } from "../components";
 import Layout from "../layouts/Layout.astro";
 ---
 <Layout>
-  <PortfolioApp client:load />
+  <PortfolioApp />
 </Layout>
+
+<script>
+  import { initPortfolioInteractions } from "../scripts/interactions";
+  initPortfolioInteractions();
+</script>

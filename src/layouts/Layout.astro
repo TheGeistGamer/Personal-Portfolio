@@ -1,35 +1,117 @@
 ---
-import '../styles/global.css'
+import '@fontsource/press-start-2p/latin-400.css';
+import '@fontsource/vt323/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-700.css';
+import '../styles/global.css';
+import pressStart from '@fontsource/press-start-2p/files/press-start-2p-latin-400-normal.woff2?url';
+import vt323 from '@fontsource/vt323/files/vt323-latin-400-normal.woff2?url';
+import { SITE } from '../site';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+}
+
+const {
+	title = SITE.title,
+	description = SITE.description,
+	image = SITE.ogImage,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+const ogImage = new URL(image, Astro.site ?? SITE.url).href;
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Person',
+			'@id': `${SITE.url}/#person`,
+			name: SITE.fullName,
+			alternateName: SITE.name,
+			jobTitle: SITE.jobTitle,
+			description,
+			url: SITE.url,
+			image: ogImage,
+			sameAs: SITE.sameAs,
+			knowsAbout: SITE.keywords,
+			knowsLanguage: ['es', 'en'],
+		},
+		{
+			'@type': 'WebSite',
+			'@id': `${SITE.url}/#website`,
+			url: SITE.url,
+			name: `${SITE.name} — Portfolio`,
+			inLanguage: ['es', 'en'],
+			publisher: { '@id': `${SITE.url}/#person` },
+		},
+		{
+			'@type': 'ProfilePage',
+			'@id': `${canonical}#webpage`,
+			url: canonical,
+			name: title,
+			description,
+			inLanguage: 'es',
+			isPartOf: { '@id': `${SITE.url}/#website` },
+			mainEntity: { '@id': `${SITE.url}/#person` },
+			primaryImageOfPage: ogImage,
+		},
+	],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="author" content={SITE.fullName} />
+		<meta name="keywords" content={SITE.keywords.join(', ')} />
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" hreflang="es" href={canonical} />
+		<link rel="alternate" hreflang="x-default" href={canonical} />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Frank Huerta — Backend Developer</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=JetBrains+Mono:wght@400;500;700&display=swap"
-			rel="stylesheet"
-		/>
+		<meta name="theme-color" content="#090d1e" />
+		<meta name="color-scheme" content="dark" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="sitemap" href="/sitemap.xml" />
+
+		<!-- Open Graph / social -->
+		<meta property="og:type" content="profile" />
+		<meta property="og:site_name" content={`${SITE.name} — Portfolio`} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={`${SITE.name} — ${SITE.jobTitle}`} />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:locale:alternate" content="en_US" />
+		<meta property="profile:first_name" content="Frank" />
+		<meta property="profile:last_name" content="Huerta" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<!-- Fonts are self-hosted; preload the ones used above the fold. -->
+		<link rel="preload" href={pressStart} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={vt323} as="font" type="font/woff2" crossorigin />
+
+		<script is:inline>document.documentElement.classList.add('js')</script>
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

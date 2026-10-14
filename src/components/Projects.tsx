@@ -3,9 +3,9 @@ import React from 'react'
 export const Projects = () => {
   return (
     <section className="projects" id="projects" data-screen-label="Projects">
-      <div className="sprite float b px-block" data-par="1.3" style={{ top: '12%', right: '4%', background: 'var(--cyan)', boxShadow: 'var(--glow-cyan)', opacity: 0.45 }}></div>
-      <div className="sprite float c" data-par="0.9" style={{ bottom: '18%', left: '3%', width: '14px', height: '14px', background: 'var(--magenta)', opacity: 0.4 }}></div>
-      <div className="sprite float px-block" data-par="1.1" style={{ top: '46%', left: '6%', width: '12px', height: '12px', background: 'var(--green)', opacity: 0.4 }}></div>
+      <div aria-hidden="true" className="sprite float b px-block" data-par="1.3" style={{ top: '12%', right: '4%', background: 'var(--cyan)', boxShadow: 'var(--glow-cyan)', opacity: 0.45 }}></div>
+      <div aria-hidden="true" className="sprite float c" data-par="0.9" style={{ bottom: '18%', left: '3%', width: '14px', height: '14px', background: 'var(--magenta)', opacity: 0.4 }}></div>
+      <div aria-hidden="true" className="sprite float px-block" data-par="1.1" style={{ top: '46%', left: '6%', width: '12px', height: '12px', background: 'var(--green)', opacity: 0.4 }}></div>
       <div className="wrap">
         <div className="sec-head reveal">
           <span className="idx">03</span>

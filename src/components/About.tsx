@@ -12,17 +12,17 @@ export const About = () => {
         <div className="about-grid">
           <div className="avatar-col reveal">
             <div className="avatar-frame">
-              <image-slot id="avatar" shape="rect" placeholder="Suelta tu foto / avatar pixel"></image-slot>
+              <image-slot id="avatar" shape="rect" placeholder="Suelta tu foto / avatar pixel" aria-label="Foto de Frank Huerta"></image-slot>
             </div>
             <span className="avatar-cap">[ PLAYER_01 ]</span>
           </div>
           <div className="about-body reveal">
-            <p data-es="Soy <span className='hl'>desarrollador backend</span>. Me apasiona construir el lado invisible de las cosas: servidores, bases de datos y APIs que aguantan carga y no se caen a las 3am."
-              data-en="I'm a <span className='hl'>backend developer</span>. I'm passionate about building the invisible side of things: servers, databases and APIs that handle load and don't crash at 3am.">
+            <p data-es="Soy <span class='hl'>desarrollador backend</span>. Me apasiona construir el lado invisible de las cosas: servidores, bases de datos y APIs que aguantan carga y no se caen a las 3am."
+              data-en="I'm a <span class='hl'>backend developer</span>. I'm passionate about building the invisible side of things: servers, databases and APIs that handle load and don't crash at 3am.">
               Soy <span className="hl">desarrollador backend</span>. Me apasiona construir el lado invisible de las cosas: servidores, bases de datos y APIs que aguantan carga y no se caen a las 3am.
             </p>
-            <p data-es="Mi filosofía: <span className='hl'>código simple por encima del código ingenioso</span>, automatizar lo repetitivo y aprender algo nuevo en cada proyecto. Creo en los fundamentos sólidos, en documentar bien y en construir para quien venga después."
-              data-en="My philosophy: <span className='hl'>simple code over clever code</span>, automate the repetitive, and learn something new in every project. I believe in solid fundamentals, good documentation, and building for whoever comes next.">
+            <p data-es="Mi filosofía: <span class='hl'>código simple por encima del código ingenioso</span>, automatizar lo repetitivo y aprender algo nuevo en cada proyecto. Creo en los fundamentos sólidos, en documentar bien y en construir para quien venga después."
+              data-en="My philosophy: <span class='hl'>simple code over clever code</span>, automate the repetitive, and learn something new in every project. I believe in solid fundamentals, good documentation, and building for whoever comes next.">
               Mi filosofía: <span className="hl">código simple por encima del código ingenioso</span>, automatizar lo repetitivo y aprender algo nuevo en cada proyecto. Creo en los fundamentos sólidos, en documentar bien y en construir para quien venga después.
             </p>
             <p className="sig" data-es="// siempre aprendiendo, siempre construyendo" data-en="// always learning, always building">// siempre aprendiendo, siempre construyendo</p>
