@@ -93,6 +93,35 @@ if (savedLang && savedLang !== 'es') applyLang(savedLang);
 
 /* ---------- 3D scene ---------- */
 const sceneEl = document.getElementById('scene');
+const REF_ASPECT = 1920 / 1200;
+
+// The desk is framed for the free gap between the side panels: returns the zoom
+// (relative to the Blender camera) and the horizontal shift the scene uses.
+const frameGap = (w: number, h: number) => {
+  const left = document.querySelector<HTMLElement>('.col.left');
+  const right = document.querySelector<HTMLElement>('.col.right');
+  const gapL = left && left.offsetParent && !MOBILE.matches ? left.getBoundingClientRect().right : 0;
+  const gapR = right && right.offsetParent && !MOBILE.matches ? right.getBoundingClientRect().left : w;
+  const fit = Math.max(gapR - gapL, w * 0.4) / h;
+  // Widen only part of the way on narrow gaps: the sides may crop a little,
+  // which keeps the desk large instead of showing the void around the room.
+  const widen = Math.max(1, REF_ASPECT / fit) ** (fit < 1 ? 0.8 : 0.55);
+  return { widen, shift: (gapL + gapR) / 2 - w / 2 };
+};
+
+// Give the poster the same framing so the swap to the live scene doesn't jump.
+const poster = sceneEl?.querySelector<HTMLElement>('.poster');
+const framePoster = () => {
+  if (!sceneEl || !poster || sceneEl.classList.contains('ready')) return;
+  const { clientWidth: w, clientHeight: h } = sceneEl;
+  if (!w || !h) return;
+  // Slide only: shrinking the image would expose its edges, and the live scene's
+  // fog hides the room edges the wider FOV reveals anyway.
+  const { shift } = frameGap(w, h);
+  poster.style.transform = `translateX(${shift}px) scale(${1 + (2 * Math.abs(shift)) / w})`;
+};
+framePoster();
+window.addEventListener('resize', framePoster);
 
 const startScene = async () => {
   if (!sceneEl) return;
@@ -180,7 +209,6 @@ const startScene = async () => {
     src.updateWorldMatrix(true, false);
     src.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale);
   }
-  const REF_ASPECT = 1920 / 1200;
   const baseFov = camera.fov;
   const fwd = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
   const target = camera.position.clone().addScaledVector(fwd, -camera.position.y / fwd.y);
@@ -249,17 +277,9 @@ const startScene = async () => {
     camera.aspect = w / h;
     // The canvas is full screen but the side panels cover its edges: frame the
     // desk for the free gap between them and shift the view so it sits centred there.
-    const left = document.querySelector<HTMLElement>('.col.left');
-    const right = document.querySelector<HTMLElement>('.col.right');
-    const gapL = left && left.offsetParent && !MOBILE.matches ? left.getBoundingClientRect().right : 0;
-    const gapR = right && right.offsetParent && !MOBILE.matches ? right.getBoundingClientRect().left : w;
-    const gapW = Math.max(gapR - gapL, w * 0.4);
-    const fit = gapW / h;
-    // Widen only part of the way on narrow gaps: the sides may crop a little,
-    // which keeps the desk large instead of showing the void around the room.
-    const t = Math.tan(THREE.MathUtils.degToRad(baseFov) / 2) * Math.max(1, REF_ASPECT / fit) ** (fit < 1 ? 0.8 : 0.55);
+    const { widen, shift } = frameGap(w, h);
+    const t = Math.tan(THREE.MathUtils.degToRad(baseFov) / 2) * widen;
     camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(t));
-    const shift = (gapL + gapR) / 2 - w / 2;
     if (Math.abs(shift) > 1) camera.setViewOffset(w, h, -shift, 0, w, h);
     else camera.clearViewOffset();
     camera.updateProjectionMatrix();

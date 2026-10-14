@@ -11,11 +11,11 @@ export const H = ({ l, as: Tag = 'p', className }: { l: L; as?: 'p' | 'span' | '
   <Tag className={className} data-es={l.es} data-en={l.en} dangerouslySetInnerHTML={{ __html: l.es }} />
 )
 
-const Win = ({ id, title, kicker, wide, children }: { id: string; title: L; kicker?: string; wide?: boolean; children: React.ReactNode }) => (
+const Win = ({ id, title, kicker, wide, children }: { id: string; title: L; kicker?: L; wide?: boolean; children: React.ReactNode }) => (
   <section className={`win${wide ? ' wide' : ''}`} id={`win-${id}`} data-win={id} role="dialog" aria-modal="false" aria-labelledby={`win-${id}-t`} hidden>
     <header className="win-bar">
       <div>
-        {kicker && <span className="win-kicker">{kicker}</span>}
+        {kicker && <span className="win-kicker"><T l={kicker} /></span>}
         <h2 id={`win-${id}-t`}><T l={title} /></h2>
       </div>
       <button type="button" className="icon-btn" data-close aria-label="Cerrar" data-aria-es="Cerrar" data-aria-en="Close">
@@ -59,7 +59,7 @@ const FigureView = ({ figure }: { figure: Figure }) => {
 }
 
 const ProjectWin = ({ project, index }: { project: Project; index: number }) => (
-  <Win id={project.id} title={{ es: project.title, en: project.title }} kicker={`${String(index + 1).padStart(2, '0')} · CASE STUDY`} wide>
+  <Win id={project.id} title={{ es: project.title, en: project.title }} kicker={{ es: `${String(index + 1).padStart(2, '0')} · CASO DE ESTUDIO`, en: `${String(index + 1).padStart(2, '0')} · CASE STUDY` }} wide>
     <img className="pw-cover" src={project.cover} width="1200" height="630" loading="lazy" decoding="async" alt={project.coverAlt.es} data-alt-es={project.coverAlt.es} data-alt-en={project.coverAlt.en} />
     <T as="p" l={project.summary} />
     <ul className="pw-facts">
@@ -91,7 +91,7 @@ const ProjectWin = ({ project, index }: { project: Project; index: number }) => 
     <div className="chips">{project.skills.map((s, i) => <span className="chip" key={i}><T l={s} /></span>)}</div>
     {project.articles.map((a, i) => (
       <article className="pw-art" key={i}>
-        <span className="win-kicker">{`ARTICLE ${String(i + 1).padStart(2, '0')}`}</span>
+        <span className="win-kicker"><T l={{ es: `ARTÍCULO ${String(i + 1).padStart(2, '0')}`, en: `ARTICLE ${String(i + 1).padStart(2, '0')}` }} /></span>
         <h3><T l={a.title} /></h3>
         <p className="pw-idea"><T as="strong" l={{ es: 'Idea central: ', en: 'Core idea: ' }} /><T l={a.idea} /></p>
         <ul className="pw-list">{a.points.map((p, j) => <li key={j}><T l={p} /></li>)}</ul>
@@ -117,7 +117,7 @@ const ProjectWin = ({ project, index }: { project: Project; index: number }) => 
 
 export const Windows = () => (
   <div className="wins" id="wins">
-    <Win id="about" title={{ es: 'Sobre mí', en: 'About me' }} kicker="PROFILE">
+    <Win id="about" title={{ es: 'Sobre mí', en: 'About me' }} kicker={{ es: 'PERFIL', en: 'PROFILE' }}>
       {about.paragraphs.map((p, i) => <H l={p} key={i} />)}
       <p className="sig" data-es="// siempre aprendiendo, siempre construyendo" data-en="// always learning, always building">// siempre aprendiendo, siempre construyendo</p>
       <div className="facts">
@@ -128,11 +128,11 @@ export const Windows = () => (
       </button>
     </Win>
 
-    <Win id="stack" title={{ es: 'Stack tecnológico', en: 'Tech stack' }} kicker="STACK" wide>
+    <Win id="stack" title={{ es: 'Stack tecnológico', en: 'Tech stack' }} kicker={{ es: 'STACK', en: 'STACK' }} wide>
       <div className="stack-grid">{stack.map((g) => <StackBars group={g} key={g.id} />)}</div>
     </Win>
 
-    <Win id="projects" title={{ es: 'Proyectos', en: 'Projects' }} kicker="WORK">
+    <Win id="projects" title={{ es: 'Proyectos', en: 'Projects' }} kicker={{ es: 'TRABAJO', en: 'WORK' }}>
       <div className="proj-list">
         {projects.map((p, i) => (
           <button type="button" className="proj-row" data-open={p.id} key={p.id}>
@@ -148,14 +148,14 @@ export const Windows = () => (
       </div>
     </Win>
 
-    <Win id="agency" title={{ es: 'InfinityDev Agency', en: 'InfinityDev Agency' }} kicker="STUDIO">
+    <Win id="agency" title={{ es: 'InfinityDev Agency', en: 'InfinityDev Agency' }} kicker={{ es: 'ESTUDIO', en: 'STUDIO' }}>
       <T as="p" l={{ es: 'Los proyectos comerciales y para clientes los construyo desde InfinityDev Agency.', en: 'Commercial and client work is built through InfinityDev Agency.' }} />
       <a className="btn primary" href={SITE.agency.url} target="_blank" rel="noopener">
         INFINITYDEV.AGENCY<Icon name="external" size={16} />
       </a>
     </Win>
 
-    <Win id="contact" title={{ es: '¿Construimos algo?', en: "Let's build something?" }} kicker="CONTACT">
+    <Win id="contact" title={{ es: '¿Construimos algo?', en: "Let's build something?" }} kicker={{ es: 'CONTACTO', en: 'CONTACT' }}>
       <T as="p" l={{ es: '¿Tienes una idea, un proyecto o una vacante? Mi terminal siempre está escuchando en el puerto correcto.', en: 'Got an idea, a project or an opening? My terminal is always listening on the right port.' }} />
       <div className="contact-actions">
         <a className="btn primary" href={`mailto:${SITE.email}`}><Icon name="mail" size={16} />{SITE.email}</a>
