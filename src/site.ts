@@ -12,7 +12,7 @@ export const SITE = {
     'Portfolio de Frank Huerta, desarrollador backend. Construyo APIs REST, sistemas escalables e infraestructura cloud con Node.js, Python, Docker, Kubernetes y AWS.',
   email: 'contacto@infinitydev.agency',
   agency: { name: 'InfinityDev Agency', url: 'https://infinitydev.agency/' },
-  ogImage: '/og-image.png',
+  ogImage: '/og-image.png?v=2',
   keywords: [
     'Frank Huerta',
     'Frank Giovanni Segura Huerta',
